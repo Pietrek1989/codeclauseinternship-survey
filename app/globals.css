@@ -3,10 +3,15 @@
 @tailwind utilities;
 
 /* base styles */
+
 body {
-  background: #ebf0fa;
-  @apply text-gray-500 m-8;
+  @apply bg-bgprimary;
 }
+
+[data-theme="dark"] body {
+  @apply bg-dbgprimary;
+}
+
 h1,
 h2 {
   @apply font-bold text-primary text-lg;
@@ -17,21 +22,21 @@ main {
 main > h2 {
   @apply mb-4 pb-2 text-base;
 }
-p > a {
-  @apply text-primary underline;
+a {
+  @apply text-fifth;
 }
 
 /* nav styles */
 nav {
   @apply pb-4
-    border-b-2 bnpmorder-gray-200
+    border-b-2
     flex items-center gap-5 
-    my-10 mx-auto 
+    my-1 mx-auto 
     max-w-5xl;
 }
 nav a,
 nav span {
-  @apply text-gray-500;
+  @apply text-fifth;
 }
 nav a:hover {
   @apply text-black;
@@ -53,23 +58,29 @@ button:hover {
 .btn-primary {
   @apply bg-primary text-white;
 }
+
 .btn-secondary {
   @apply bg-gray-200 text-gray-900;
 }
 
 /* form styles */
-form {
+.form {
   @apply py-4 px-7 
-    bg-primary 
-    bg-opacity-5 
+    bg-bgsecondary  
     rounded-md 
     block 
     mx-auto 
     min-w-fit w-1/4;
 }
+
+[data-theme="dark"] .form {
+  @apply bg-dbgsecondary;
+}
+
 form label {
   @apply block;
 }
+
 form input,
 form textarea,
 form select {
