@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import logo from "../assets/speedsurvey-low-resolution-logo-color-on-transparent-background.png";
 import ThemeChanger from "./useTheme";
+import NavigationOptions from "./NavigationOptions";
 
 const Navbar = () => {
   return (
@@ -17,10 +18,9 @@ const Navbar = () => {
           />
         </Link>
       </div>
-      <div className="mt-5">
+      <div className="mt-5 mr-2">
         <ThemeChanger />
-        <Link href={"/login"}>Log in / Register </Link>
-        <Link href={"/account"}>Your Surveys</Link>
+        <NavigationOptions />
       </div>
     </nav>
   );

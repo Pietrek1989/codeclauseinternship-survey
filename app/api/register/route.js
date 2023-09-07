@@ -1,10 +1,12 @@
 import connectMongoDB from "@/libs/mongodb";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 
 export async function POST(request) {
   try {
     const { name, surname, email, password } = await request.json();
+    const hashedPassword = await bcrypt.hash(password, 10);
     await connectMongoDB();
 
     const existingUser = await User.findOne({ email });
@@ -15,7 +17,7 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-    await User.create({ name, surname, email, password });
+    await User.create({ name, surname, email, password: hashedPassword });
     console.log("User created");
     return NextResponse.json({ message: "User Created" }, { status: 201 });
   } catch (error) {

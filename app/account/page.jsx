@@ -1,24 +1,28 @@
+"use client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
-const Account = async () => {
-  const getSurvey = async () => {
-    try {
-      const res = await fetch("https://localhost:3000/api/surveys", {
-        cache: "no-store",
-      });
-      if (!res.ok) {
-        throw newError("Failed to fetch surveys");
-      }
-      return res.json();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const AccountPage = () => {
+  // const getSurvey = async () => {
+  //   try {
+  //     const res = await fetch("https://localhost:3000/api/surveys", {
+  //       cache: "no-store",
+  //     });
+  //     if (!res.ok) {
+  //       throw newError("Failed to fetch surveys");
+  //     }
+  //     return res.json();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  const { data: session } = useSession();
   //   const { surveys } = await getSurvey();
   return (
     <div>
-      <Link href={"/account/createSurvey"}>
+      <h2>Hello {session?.user?.name}</h2>
+      <Link href={"/Page/createSurvey"}>
         <button>New</button>
       </Link>
       {/* {surveys.map((survey) => {
@@ -28,4 +32,4 @@ const Account = async () => {
     </div>
   );
 };
-export default Account;
+export default AccountPage;

@@ -44,10 +44,29 @@ const LoginPage = () => {
       console.error(error);
     }
   };
+  const signInFunc = async ({ email, password }, e) => {
+    e.preventDefault();
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (res.error) {
+        console.log("res.error");
+        return;
+      }
+      console.log("worked?");
+      // router.replace("/account");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     setisLoading(true);
-    logIn(formValues);
+    signInFunc(formValues, e);
   };
   return (
     <section className="flex flex-col md:flex-row  items-center">

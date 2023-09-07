@@ -36,7 +36,7 @@ nav {
 }
 nav a,
 nav span {
-  @apply text-fifth;
+  @apply text-fifth mr-1;
 }
 nav a:hover {
   @apply text-black;
