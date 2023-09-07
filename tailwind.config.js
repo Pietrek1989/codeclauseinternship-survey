@@ -15,7 +15,7 @@ module.exports = {
         fourth: "#fffcf9",
         fifth: "#93a0a3",
         bgprimary: "#ebf1f4",
-        bgsecondary: "#fffcf9",
+        bgsecondary: "#ffff",
         dbgprimary: "#252E42",
         dbgsecondary: "#2F3B52",
       },

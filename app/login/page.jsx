@@ -137,7 +137,7 @@ const LoginPage = () => {
           )}
 
           <hr className="my-6 border-gray-300 w-full" />
-          <Link href={`http://localhost:3000/api/auth/googlelogin`}>
+          <div onClick={() => signIn("google")}>
             <button className="button-google mx-auto">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +168,7 @@ const LoginPage = () => {
               </svg>
               <span className="text">Continue with Google</span>
             </button>
-          </Link>
+          </div>
 
           <p className="mt-8">
             Need an account?{" "}

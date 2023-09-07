@@ -4,6 +4,7 @@ import User from "@/models/user";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
   providers: [
@@ -37,7 +38,43 @@ export const authOptions = {
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+    }),
   ],
+  callbacks: {
+    async signIn({ user, account }) {
+      const { name, email, image, id } = user;
+      console.log("user", user);
+      console.log("account", account);
+
+      if (account.provider === "google")
+        try {
+          await connectMongoDB();
+
+          const existingUser = await User.findOne({ email });
+          if (!existingUser) {
+            const newUser = await User.create({
+              name: name,
+              email,
+              image,
+              googleId: id,
+            });
+
+            const created = await newUser.save();
+            console.log("creted user", created);
+          } else {
+            console.error(
+              `Error logging in: ${res.status} ${await res.text()}`
+            );
+          }
+        } catch (error) {
+          console.error("Exception Error:", error);
+        }
+      return user;
+    },
+  },
   session: {
     strategy: "jwt",
   },

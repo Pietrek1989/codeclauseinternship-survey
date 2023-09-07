@@ -7,14 +7,14 @@ const NavigationOptions = () => {
   const { data: session } = useSession();
 
   return (
-    <>
-      {session?.user?.name ? (
+    <div className="flex flex-col items-end">
+      {session?.user ? (
         <Link href={"/account"}>Your Surveys</Link>
       ) : (
         <Link href={"/login"}>Log in</Link>
       )}
 
-      {session?.user?.name && (
+      {session?.user && (
         <span
           onClick={(e) => {
             e.preventDefault();
@@ -24,7 +24,7 @@ const NavigationOptions = () => {
           <Link href={"/"}>Sign Out</Link>
         </span>
       )}
-    </>
+    </div>
   );
 };
 

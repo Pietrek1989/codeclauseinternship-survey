@@ -3,13 +3,13 @@ import Link from "next/link";
 import React, { FormEvent, useState } from "react";
 import "../login/google.css";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 // import "../../styles/account.css";
 // import Loader from "../other/Loader";
 
 const RegisterPage = () => {
   const [formValues, setFormValues] = useState({
     name: "",
-    surname: "",
     email: "",
     password: "",
   });
@@ -70,41 +70,22 @@ const RegisterPage = () => {
             method="POST"
             onSubmit={handleSubmit}
           >
-            <div className="flex  justify-between ">
-              <div className="mr-1">
-                <label className="block text-gray-700 ">Username</label>
-                <input
-                  type="name"
-                  name=""
-                  id=""
-                  placeholder="Enter Frist Name"
-                  className="px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                  autoFocus
-                  autoComplete="on"
-                  required
-                  value={formValues.name}
-                  onChange={(e) =>
-                    setFormValues({ ...formValues, name: e.target.value })
-                  }
-                />
-              </div>
-              <div className="ml-1">
-                <label className="block text-gray-700">Surname</label>
-                <input
-                  type="surname"
-                  name=""
-                  id=""
-                  placeholder="Enter Surname"
-                  className=" px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                  autoFocus
-                  autoComplete="on"
-                  required
-                  value={formValues.surname}
-                  onChange={(e) =>
-                    setFormValues({ ...formValues, surname: e.target.value })
-                  }
-                />
-              </div>
+            <div className="mr-1">
+              <label className="block text-gray-700 ">Username</label>
+              <input
+                type="name"
+                name=""
+                id=""
+                placeholder="Enter your name"
+                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                autoFocus
+                autoComplete="on"
+                required
+                value={formValues.name}
+                onChange={(e) =>
+                  setFormValues({ ...formValues, name: e.target.value })
+                }
+              />
             </div>
             <div>
               <label className="block text-gray-700">Email Address</label>
@@ -160,7 +141,7 @@ const RegisterPage = () => {
           </form>
 
           <hr className="my-6 border-gray-300 w-full" />
-          <Link href={`http://localhost:3000/api/auth/googlelogin`}>
+          <div onClick={() => signIn("google")}>
             <button className="button-google mx-auto">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +172,7 @@ const RegisterPage = () => {
               </svg>
               <span className="text">Continue with Google</span>
             </button>
-          </Link>
+          </div>
 
           <p className="mt-8">
             Do you already have an account?{" "}
