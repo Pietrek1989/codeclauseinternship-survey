@@ -14,11 +14,9 @@ body {
 
 h1,
 h2 {
-  @apply font-bold text-primary text-lg;
+  @apply font-bold text-fifth text-2xl;
 }
-main {
-  @apply max-w-5xl my-12 mx-auto px-8;
-}
+
 main > h2 {
   @apply mb-4 pb-2 text-base;
 }
@@ -37,6 +35,9 @@ nav {
 nav a,
 nav span {
   @apply text-fifth mr-1;
+}
+[data-theme="dark"] nav a:hover {
+  @apply text-white;
 }
 nav a:hover {
   @apply text-black;
@@ -140,4 +141,28 @@ form button {
 .card .pill {
   @apply absolute bottom-0 right-0 
     rounded-tl-md;
+}
+
+.hero-page {
+  background-image: url("https://images.unsplash.com/photo-1464699855782-09d5f61999ac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80");
+  background-size: cover;
+  /* background-size: 100%; */
+  background-repeat: no-repeat;
+}
+
+@media screen and (max-width: 992px) {
+  .hero-page {
+    background-position: 50%;
+  }
+  h1,
+  h2 {
+    @apply text-lg;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  h1,
+  h2 {
+    @apply text-base;
+  }
 }

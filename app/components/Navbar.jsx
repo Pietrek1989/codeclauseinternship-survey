@@ -10,12 +10,7 @@ const Navbar = () => {
     <nav className="flex justify-between">
       <div>
         <Link href={"/"}>
-          <Image
-            src={logo}
-            alt="Survey website logo(books)"
-            width={150}
-            placeholder="blur"
-          />
+          <Image src={logo} alt="Survey website logo(books)" width={150} />
         </Link>
       </div>
       <div className="mt-5 mr-2">

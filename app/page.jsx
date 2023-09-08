@@ -1,7 +1,15 @@
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24  ">
-      <h1>Survey page</h1>
+    <main className="min-h-screen  p-0 m-0 hero-page relative ">
+      <div className="flex flex-col h-20 justify-center items-center mr-0 pr-0 pt-5">
+        <h1>Welcome to SpeedSurvey</h1>
+        <h2>Easy and Speedy to create, share and analyze your surveys!</h2>
+      </div>
+      <div className="flex h-screen w-100 justify-center items-center">
+        <button className=" bg-blue rounded-md text-lg  bg-primary text-fourth">
+          Create your survey!
+        </button>
+      </div>
     </main>
   );
 }
