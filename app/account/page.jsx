@@ -20,16 +20,19 @@ const AccountPage = () => {
   const { data: session } = useSession();
   //   const { surveys } = await getSurvey();
   return (
-    <div>
-      <h2>Hello {session?.user?.name}</h2>
-      <Link href={"/Page/createSurvey"}>
-        <button>New</button>
-      </Link>
-      {/* {surveys.map((survey) => {
+    <section className="flex flex-col sm:flex-row w-screen">
+      <div className="sm:w-2/12 w-full"> the icons etc </div>
+      <div className="sm:w-10/12 w-full">
+        <h2>Hello {session?.user?.name}</h2>
+        <Link href={"/Page/createSurvey"}>
+          <button>New</button>
+        </Link>
+        {/* {surveys.map((survey) => {
         <Link href={`/${survey._id}`}>{survey.name}</Link>;
       })} */}
-      ;
-    </div>
+        ;
+      </div>
+    </section>
   );
 };
 export default AccountPage;
