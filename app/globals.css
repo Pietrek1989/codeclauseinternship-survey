@@ -57,11 +57,11 @@ button:hover {
   @apply bg-opacity-90;
 }
 .btn-primary {
-  @apply bg-primary text-white;
+  @apply bg-secondary text-fourth font-semibold;
 }
 
 .btn-secondary {
-  @apply bg-gray-200 text-gray-900;
+  @apply bg-third text-sixth;
 }
 
 /* form styles */
@@ -69,9 +69,14 @@ button:hover {
   @apply py-4 px-7 
     bg-bgsecondary  
     rounded-md 
-    block 
-    mx-auto 
-    min-w-fit w-1/4;
+    block;
+}
+.form .question {
+  @apply rounded-sm bg-primary text-fourth font-bold;
+}
+
+[data-theme="dark"] .form .question {
+  @apply bg-dbgprimary;
 }
 
 [data-theme="dark"] .form {
@@ -149,6 +154,10 @@ form button {
   /* background-size: 100%; */
   background-repeat: no-repeat;
 }
+
+/* .form-container {
+  @apply bg-bgsecondary p-5 rounded-md  dark:bg-dbgsecondary;
+} */
 
 @media screen and (max-width: 992px) {
   .hero-page {
