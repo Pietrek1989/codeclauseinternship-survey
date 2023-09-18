@@ -1,14 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-const SurveyForm = ({ surveyId }) => {
+const SurveyForm = ({ surveyId, userId }) => {
   const [questions, setQuestions] = useState([{ question: "", options: [""] }]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   useEffect(() => {
+    console.log("userid", userId);
     if (surveyId) {
       // Fetch existing survey data and populate the form
-      fetch(`/api/surveys/${surveyId}`)
+      fetch(`http://localhost:3000/api/survey/${surveyId}`)
         .then((response) => response.json())
         .then((data) => {
           setTitle(data.survey.title);
@@ -26,33 +27,36 @@ const SurveyForm = ({ surveyId }) => {
       title,
       description,
       questions,
+      ownerId: userId,
     };
+    console.log("payload", payload);
 
     try {
       let response;
+      let url;
+      let method;
+
       if (surveyId) {
-        response = await fetch(`/api/surveys/edit?id=${surveyId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        url = `/api/survey/?id=${surveyId}`;
+        method = "PUT";
       } else {
-        response = await fetch(`/api/surveys/create`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        url = `/api/survey`;
+        method = "POST";
       }
 
-      if (response.ok) {
-        console.log("Survey saved successfully!");
-      } else {
-        console.log("Failed to save survey.");
-      }
+      response = await fetch(`http://localhost:3000${url}`, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      console.log("data", data);
     } catch (error) {
       console.error("An error occurred while saving the survey", error);
     }
   };
+
   return (
     <div>
       <h2 className="text-center mb-5">
@@ -134,7 +138,11 @@ const SurveyForm = ({ surveyId }) => {
         >
           Add Another Question
         </button>
-        <button type="submit" className="btn-primary my-5">
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className="btn-primary my-5"
+        >
           Save Survey
         </button>
       </form>

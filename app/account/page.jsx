@@ -3,38 +3,33 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import SurveyForm from "./SurveyForm";
 import ResultsComponent from "./ResultsComponent";
+import { getSurvey } from "../fetching";
 
 const AccountPage = () => {
   const { data: session } = useSession();
+
   const [activeComponent, setActiveComponent] = useState("hello");
   const [surveys, setSurveys] = useState([]);
 
-  const getSurvey = async () => {
-    try {
-      const res = await fetch("https://localhost:3000/api/surveys", {
-        cache: "no-store",
-      });
-      if (!res.ok) {
-        throw newError("Failed to fetch surveys");
-      }
-      return res.json();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    const data = getSurvey();
-    console.log(data);
-    setSurveys(data.surveys);
-  }, []);
+    async function fetchData() {
+      const data = await getSurvey(session.user);
+      console.log("session", session.user);
+      console.log("Received data: ", data);
+      if (data && data.surveys) {
+        setSurveys(data);
+      }
+    }
+    fetchData();
+  }, [session]);
 
   const renderComponent = () => {
+    console.log(surveys?.user?._id);
     if (activeComponent === "createSurvey") {
-      return <SurveyForm />;
+      return <SurveyForm userId={surveys?.user?._id} />;
     } else if (activeComponent.startsWith("editSurvey:")) {
       const surveyId = activeComponent.split(":")[1];
-      return <SurveyForm surveyId={surveyId} />;
+      return <SurveyForm surveyId={surveyId} userId={surveys?.user?._id} />;
     } else if (activeComponent.startsWith("viewResults:")) {
       const surveyId = activeComponent.split(":")[1];
       return <ResultsComponent surveyId={surveyId} />;

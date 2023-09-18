@@ -1,7 +1,8 @@
 import connectMongoDB from "@/libs/mongodb";
 import Survey from "@/models/survey";
+import { NextResponse } from "next/server";
 
-export async function createSurvey(request) {
+export async function POST(request) {
   try {
     const { title, description, questions, ownerId } = await request.json();
     await connectMongoDB();
@@ -12,6 +13,18 @@ export async function createSurvey(request) {
       questions,
       ownerId,
     });
+
+    const user = await User.findById(ownerId);
+    if (user) {
+      user.surveys = [...user.surveys, newSurvey._id];
+      await user.save();
+    } else {
+      console.log("User not found: ", ownerId);
+      return NextResponse.json(
+        { message: "User not found", ownerId },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json(
       { message: "Survey Created", surveyId: newSurvey._id },
@@ -26,7 +39,7 @@ export async function createSurvey(request) {
   }
 }
 
-export async function editSurvey(request) {
+export async function PUT(request) {
   const id = request.nextUrl.searchParams.get("id");
   const { title, description, questions } = await request.json();
   await connectMongoDB();
@@ -36,7 +49,7 @@ export async function editSurvey(request) {
   return NextResponse.json({ message: "Survey Updated" }, { status: 200 });
 }
 
-export async function deleteSurvey(request) {
+export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
   await connectMongoDB();
 
@@ -45,11 +58,11 @@ export async function deleteSurvey(request) {
   return NextResponse.json({ message: "Survey Deleted" }, { status: 200 });
 }
 
-export async function getSurveyResults(request) {
+export async function GET(request) {
   const id = request.nextUrl.searchParams.get("id");
   await connectMongoDB();
 
-  const survey = await Survey.findById(id).populate("responses");
+  const survey = await Survey.findById(id);
 
   return NextResponse.json({ survey });
 }
