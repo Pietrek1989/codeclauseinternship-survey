@@ -1,5 +1,6 @@
 import connectMongoDB from "@/libs/mongodb";
 import Survey from "@/models/survey";
+import User from "@/models/user";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {

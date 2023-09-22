@@ -1,10 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { getSurvey } from "../../fetching";
+import { useSession } from "next-auth/react";
 
-const SurveyForm = ({ surveyId, userId }) => {
+const SurveyForm = ({ surveyId, userId, setSurveys }) => {
   const [questions, setQuestions] = useState([{ question: "", options: [""] }]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { data: session } = useSession();
+
   useEffect(() => {
     console.log("userid", userId);
     if (surveyId) {
@@ -37,7 +41,7 @@ const SurveyForm = ({ surveyId, userId }) => {
       let method;
 
       if (surveyId) {
-        url = `/api/survey/?id=${surveyId}`;
+        url = `/api/survey/${surveyId}`;
         method = "PUT";
       } else {
         url = `/api/survey`;
@@ -51,6 +55,12 @@ const SurveyForm = ({ surveyId, userId }) => {
       });
 
       const data = await response.json();
+      const userData = await getSurvey(session.user);
+      if (userData && userData.user) {
+        setSurveys(userData);
+        console.log("surveys", surveys);
+      }
+
       console.log("data", data);
     } catch (error) {
       console.error("An error occurred while saving the survey", error);

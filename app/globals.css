@@ -147,6 +147,9 @@ form button {
   @apply absolute bottom-0 right-0 
     rounded-tl-md;
 }
+li {
+  list-style: none;
+}
 
 .hero-page {
   background-image: url("https://images.unsplash.com/photo-1464699855782-09d5f61999ac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80");
@@ -174,4 +177,14 @@ form button {
   h2 {
     @apply text-base;
   }
+}
+
+.slide-down {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.slide-down.show {
+  max-height: 100px;
 }
