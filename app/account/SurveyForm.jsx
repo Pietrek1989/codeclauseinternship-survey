@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getSurvey } from "../../fetching";
+import { getSurvey } from "../fetching";
 import { useSession } from "next-auth/react";
 
 const SurveyForm = ({ surveyId, userId, setSurveys }) => {

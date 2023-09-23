@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import SurveyForm from "./SurveyForm";
 import ResultsComponent from "./ResultsComponent";
-import { getSurvey } from "../../fetching";
+import { getSurvey } from "../fetching";
 import { copyLinkToClipboard } from "./functions";
 
 const AccountPage = () => {
