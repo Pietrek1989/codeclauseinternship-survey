@@ -40,10 +40,11 @@ const SurveyPage = ({ params }) => {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const res = await axios.post(`/api/responses/${id}`, {
-        responses: response,
+      const res = await axios.post(`/api/survey/responses?id=${id}`, {
+        newResponses: response,
       });
       alert("response saved");
       // Handle successful submission here
@@ -70,29 +71,31 @@ const SurveyPage = ({ params }) => {
     return <div>Loading...</div>;
   }
   return (
-    <div className="mx-10">
+    <div className="mx-10 ">
       <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          name="age"
-          placeholder="Age"
-          onChange={handleInputChange}
-          required
-        />
-        <input
-          type="text"
-          name="country"
-          placeholder="Country"
-          onChange={handleInputChange}
-          required
-        />
-        <input
-          type="text"
-          name="gender"
-          placeholder="Gender"
-          onChange={handleInputChange}
-          required
-        />
+        <div className="flex flex-col">
+          <input
+            type="number"
+            name="age"
+            placeholder="Age"
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="text"
+            name="country"
+            placeholder="Country"
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="text"
+            name="gender"
+            placeholder="Gender"
+            onChange={handleInputChange}
+            required
+          />
+        </div>
         <div className="flex flex-col">
           {survey?.survey?.questions?.map((q, index) => (
             <div key={q._id}>

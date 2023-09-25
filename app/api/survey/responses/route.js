@@ -5,9 +5,28 @@ import { NextResponse } from "next/server";
 export async function POST(req, res) {
   try {
     const body = await req.json();
-    const { id } = req.query;
+    console.log("body", body);
 
-    const { responses: newResponses } = body;
+    if (!body || !body.newResponses) {
+      return NextResponse.json(
+        { message: "Invalid body or newResponses missing" },
+        { status: 400 }
+      );
+    }
+
+    const { newResponses } = body;
+
+    console.log("newResponses just before the error", newResponses);
+
+    if (!newResponses.age || !newResponses.country || !newResponses.answers) {
+      return NextResponse.json(
+        { message: "Incomplete newResponses object" },
+        { status: 400 }
+      );
+    }
+
+    const id = req.nextUrl.searchParams.get("id");
+    console.log("id", id);
 
     await connectMongoDB();
 
@@ -24,13 +43,19 @@ export async function POST(req, res) {
     );
 
     if (survey) {
-      res.status(200).json({ survey });
+      return NextResponse.json({ survey });
     } else {
-      res.status(404).json({ message: "Survey not found" });
+      return NextResponse.json(
+        { message: "Survey not found" },
+        { status: 404 }
+      );
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    return NextResponse.json(
+      { message: "An error occurred when trying to register a form result" },
+      { status: 500 }
+    );
   }
 }
 

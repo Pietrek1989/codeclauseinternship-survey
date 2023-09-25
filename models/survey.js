@@ -12,13 +12,13 @@ const surveySchema = new Schema(
     ],
     responses: [
       {
-        age: { type: Number, required: true },
+        age: { type: String, required: true },
         country: { type: String, required: true },
         gender: { type: String, required: true },
         answers: [
           {
-            questionId: { type: Schema.Types.ObjectId, required: true },
-            selectedOption: { type: String, required: true },
+            questionId: { type: String },
+            selectedOption: { type: String },
           },
         ],
       },
