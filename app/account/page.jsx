@@ -5,6 +5,7 @@ import SurveyForm from "./SurveyForm";
 import ResultsComponent from "./ResultsComponent";
 import { getSurvey } from "../fetching";
 import { copyLinkToClipboard } from "./functions";
+import { VscCopy, VscEdit, VscListFlat, VscPieChart } from "react-icons/vsc";
 
 const AccountPage = () => {
   const { data: session } = useSession();
@@ -39,8 +40,8 @@ const AccountPage = () => {
     } else {
       return (
         <>
-          <ul>
-            <div>Hello, {session?.user?.name}</div>
+          <ul className="w-full h-full flex justify-center items-center">
+            <h2>Hello, {session?.user?.name}</h2>
           </ul>
         </>
       );
@@ -48,50 +49,63 @@ const AccountPage = () => {
   };
 
   return (
-    <section className="flex flex-col sm:flex-row">
-      <div className="sm:w-2/12 w-full p-4">
-        <div className="mb-4">
+    <section className="flex flex-col sm:flex-row ">
+      <div className="sm:w-3/12 w-full p-4">
+        <div className="mb-4  min-h-full left-nav">
           <button
             onClick={() => setActiveComponent("createSurvey")}
-            className="btn-primary  py-2 px-4 rounded"
+            className="btn-primary  py-2 px-8 mb-2 rounded"
           >
             Create New Survey
           </button>
-          {surveys?.user?.surveys?.map((survey) => (
-            <li key={survey._id}>
-              <button
-                onClick={() =>
-                  setActiveSurvey((prev) =>
-                    prev === survey._id ? null : survey._id
-                  )
-                }
-              >
-                {survey.title}
-              </button>
-
-              <div
-                className={`slide-down ${
-                  activeSurvey === survey._id ? "show" : ""
-                }`}
-              >
-                <button
-                  onClick={() => setActiveComponent(`editSurvey:${survey._id}`)}
-                >
-                  Edit
-                </button>
+          <div className="ml-2">
+            <h5>Your surveys:</h5>
+            {surveys?.user?.surveys?.map((survey) => (
+              <li key={survey._id}>
                 <button
                   onClick={() =>
-                    setActiveComponent(`viewResults:${survey._id}`)
+                    setActiveSurvey((prev) =>
+                      prev === survey._id ? null : survey._id
+                    )
                   }
                 >
-                  View Results
+                  <VscListFlat />
+                  {survey.title}
                 </button>
-                <button onClick={() => copyLinkToClipboard(survey._id)}>
-                  Copy Survey Link
-                </button>
-              </div>
-            </li>
-          ))}
+
+                <div
+                  className={`slide-down ml-8 mb-4 ${
+                    activeSurvey === survey._id ? "show" : ""
+                  }`}
+                >
+                  <button
+                    onClick={() =>
+                      setActiveComponent(`editSurvey:${survey._id}`)
+                    }
+                    className="underline"
+                  >
+                    <VscEdit />
+                    Edit
+                  </button>
+                  <button
+                    className="underline"
+                    onClick={() =>
+                      setActiveComponent(`viewResults:${survey._id}`)
+                    }
+                  >
+                    <VscPieChart /> Results
+                  </button>
+                  <button
+                    className="underline"
+                    onClick={() => copyLinkToClipboard(survey._id)}
+                  >
+                    <VscCopy />
+                    Copy Link
+                  </button>
+                </div>
+              </li>
+            ))}
+          </div>
         </div>
       </div>
 

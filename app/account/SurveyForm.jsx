@@ -68,41 +68,45 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
   };
 
   return (
-    <div>
+    <>
       <h2 className="text-center mb-5">
         {surveyId ? "Edit Survey" : "New Survey"}
       </h2>
-      <form className="form">
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+      <form>
+        <div className="form">
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+
         {questions.map((q, qIndex) => (
-          <div key={qIndex}>
-            <label htmlFor={`question-${qIndex}`} className="p-1">
-              Question #{qIndex + 1}
-            </label>
-            <textarea
-              id={`question-${qIndex}`}
-              type="text"
-              className=" question "
-              placeholder={`Question ${qIndex + 1}`}
-              value={q.question}
-              onChange={(e) => {
-                const newQuestions = [...questions];
-                newQuestions[qIndex].question = e.target.value;
-                setQuestions(newQuestions);
-              }}
-            />
-            <div>
+          <div key={qIndex} className="w-full">
+            <div className="form">
+              <label htmlFor={`question-${qIndex}`} className="p-1">
+                Question #{qIndex + 1}
+              </label>
+              <textarea
+                id={`question-${qIndex}`}
+                type="text"
+                className="question"
+                placeholder={`Question ${qIndex + 1}`}
+                value={q.question}
+                onChange={(e) => {
+                  const newQuestions = [...questions];
+                  newQuestions[qIndex].question = e.target.value;
+                  setQuestions(newQuestions);
+                }}
+              />
+
               {q.options.map((option, oIndex) => (
                 <div key={oIndex}>
                   <label htmlFor={`option-${qIndex}-${oIndex}`} className="p-1">
@@ -111,7 +115,7 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
                   <textarea
                     id={`option-${qIndex}-${oIndex}`}
                     type="text"
-                    className="rounded-sm border "
+                    className="rounded-sm border"
                     placeholder={`Option ${oIndex + 1}`}
                     value={option}
                     disabled={q.options.length >= 6}
@@ -123,6 +127,7 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
                   />
                 </div>
               ))}
+
               {q.options.length < 6 && (
                 <button
                   type="button"
@@ -139,24 +144,25 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
             </div>
           </div>
         ))}
-        <button
-          type="button"
-          className="btn-primary my-5"
-          onClick={() => {
-            setQuestions([...questions, { question: "", options: [""] }]);
-          }}
-        >
-          Add Another Question
-        </button>
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          className="btn-primary my-5"
-        >
-          Save Survey
-        </button>
       </form>
-    </div>
+
+      <button
+        type="button"
+        className="btn-secondary my-5 mx-auto"
+        onClick={() => {
+          setQuestions([...questions, { question: "", options: [""] }]);
+        }}
+      >
+        Add Another Question
+      </button>
+      <button
+        type="button"
+        className="btn-primary my-5 mx-auto text-lg"
+        onClick={handleSubmit}
+      >
+        Save Survey
+      </button>
+    </>
   );
 };
 

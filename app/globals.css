@@ -54,7 +54,7 @@ button {
     text-sm;
 }
 button:hover {
-  @apply bg-opacity-90;
+  @apply bg-opacity-70 scale-105 font-bold;
 }
 .btn-primary {
   @apply bg-secondary text-fourth font-semibold;
@@ -69,8 +69,10 @@ button:hover {
   @apply py-4 px-7 
     bg-bgsecondary  
     rounded-md 
-    block;
+    block
+    my-5;
 }
+
 .form .question {
   @apply rounded-sm bg-primary text-fourth font-bold;
 }
@@ -187,4 +189,12 @@ li {
 
 .slide-down.show {
   max-height: 100px;
+}
+
+.left-nav {
+  @apply bg-bgsecondary;
+}
+
+[data-theme="dark"] .left-nav {
+  @apply bg-dbgsecondary;
 }

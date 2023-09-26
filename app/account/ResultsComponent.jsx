@@ -174,8 +174,7 @@ const ResultsComponent = ({ surveyId }) => {
 
   return (
     <div>
-      <h1>{survey.title}</h1>
-      <button onClick={toggleChartType}>Toggle Chart Type</button>
+      <h1 className="text-center my-5">{survey.title}</h1>
       {/* Filters */}
       <div>
         <label>
@@ -213,6 +212,7 @@ const ResultsComponent = ({ surveyId }) => {
           </select>
         </label>
       </div>
+      <button onClick={toggleChartType}>Toggle Chart Type</button>
 
       {survey.questions.map((question) => {
         const dataForQuestion = Object.entries(
