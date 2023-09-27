@@ -96,7 +96,7 @@ const ResultsComponent = ({ surveyId }) => {
     }
   }, [survey, minAge, maxAge, genderFilter, countryFilter]);
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"]; // Add more colors if you have more bars or pie sections
+  const COLORS = ["#a39a93", "#E9DBD2", "#d2e4e9", "#8798AD"]; // Add more colors if you have more bars or pie sections
 
   const renderChart = (question, dataForQuestion) => {
     const totalResponses = dataForQuestion.reduce(
@@ -177,9 +177,11 @@ const ResultsComponent = ({ surveyId }) => {
       <h1 className="text-center my-5">{survey.title}</h1>
       {/* Filters */}
       <div>
+        <h2>FILTERS:</h2>
         <label>
-          Age:
+          Age:{" "}
           <input
+            className="mx-5"
             type="number"
             placeholder="Min Age"
             value={minAge}
@@ -192,6 +194,7 @@ const ResultsComponent = ({ surveyId }) => {
             onChange={(e) => setMaxAge(e.target.value)}
           />
         </label>
+        <br />
         <label>
           Gender:
           <select onChange={(e) => setGenderFilter(e.target.value)}>
@@ -212,9 +215,11 @@ const ResultsComponent = ({ surveyId }) => {
           </select>
         </label>
       </div>
-      <button onClick={toggleChartType}>Toggle Chart Type</button>
+      <button className="btn-secondary mt-5" onClick={toggleChartType}>
+        Toggle Chart Type
+      </button>
 
-      {survey.questions.map((question) => {
+      {survey.questions.map((question, i) => {
         const dataForQuestion = Object.entries(
           aggregatedData[question._id] || {}
         ).map(([key, value]) => ({
@@ -223,9 +228,13 @@ const ResultsComponent = ({ surveyId }) => {
         }));
 
         return (
-          <div key={question._id}>
-            <h3>{question.question}</h3>
-            {renderChart(question, dataForQuestion)}
+          <div key={question._id} className="form">
+            <h2>
+              Q#{i + 1} {question.question}
+            </h2>
+            <div className="mx-auto flex justify-center mt-5">
+              {renderChart(question, dataForQuestion)}
+            </div>
           </div>
         );
       })}

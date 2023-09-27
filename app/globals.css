@@ -198,3 +198,9 @@ li {
 [data-theme="dark"] .left-nav {
   @apply bg-dbgsecondary;
 }
+.question::placeholder {
+  color: rgba(255, 255, 255, 0.684);
+}
+.slide-down svg {
+  @apply text-primary;
+}

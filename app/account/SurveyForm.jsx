@@ -75,12 +75,14 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
       <form>
         <div className="form">
           <input
+            className="rounded-sm border w-full"
             type="text"
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <input
+            className="rounded-sm border w-full"
             type="text"
             placeholder="Description"
             value={description}
@@ -97,7 +99,7 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
               <textarea
                 id={`question-${qIndex}`}
                 type="text"
-                className="question"
+                className="question w-full"
                 placeholder={`Question ${qIndex + 1}`}
                 value={q.question}
                 onChange={(e) => {
@@ -115,7 +117,7 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
                   <textarea
                     id={`option-${qIndex}-${oIndex}`}
                     type="text"
-                    className="rounded-sm border"
+                    className="rounded-sm border w-full"
                     placeholder={`Option ${oIndex + 1}`}
                     value={option}
                     disabled={q.options.length >= 6}
@@ -148,7 +150,7 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
 
       <button
         type="button"
-        className="btn-secondary my-5 mx-auto"
+        className="btn-secondary my-5 mx-auto text-lg"
         onClick={() => {
           setQuestions([...questions, { question: "", options: [""] }]);
         }}
