@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="min-h-screen  p-0 m-0 hero-page relative ">
@@ -6,9 +8,11 @@ export default function Home() {
         <h2>Easy and Speedy to create, share and analyze your surveys!</h2>
       </div>
       <div className="flex h-screen w-100 justify-center items-center">
-        <button className=" bg-blue rounded-md text-lg  bg-primary text-fourth">
-          Create your survey!
-        </button>
+        <Link href="/login">
+          <button className=" bg-blue rounded-md text-lg  bg-primary text-fourth">
+            Create your survey!
+          </button>
+        </Link>
       </div>
     </main>
   );
