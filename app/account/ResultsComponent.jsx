@@ -23,6 +23,10 @@ const ResultsComponent = ({ surveyId }) => {
   const [availableCountries, setAvailableCountries] = useState([]);
   const [minAge, setMinAge] = useState("");
   const [maxAge, setMaxAge] = useState("");
+  const [totalResponses, setTotalResponses] = useState(0);
+  const [countryCount, setCountryCount] = useState({});
+  const [genderCount, setGenderCount] = useState({});
+  const [ageDemographics, setAgeDemographics] = useState({});
 
   // useEffect(() => {
   //   fetch(`/api/survey/responses?id=${surveyId}`)
@@ -53,7 +57,13 @@ const ResultsComponent = ({ surveyId }) => {
       countries.add(response.country);
     });
     setAvailableCountries(Array.from(countries));
-    setAggregatedData(aggregateResponses(data.survey));
+    const aggregated = aggregateResponses(data.survey);
+    setAggregatedData(aggregated);
+    const analysis = analyzeSurveyData(data.survey.responses);
+    setTotalResponses(analysis.totalResponses);
+    setCountryCount(analysis.countryCount);
+    setGenderCount(analysis.genderCount);
+    setAgeDemographics(analysis.ageDemographics);
   }, [surveyId]);
 
   const aggregateResponses = (survey) => {
@@ -83,6 +93,35 @@ const ResultsComponent = ({ surveyId }) => {
     });
 
     return aggregate;
+  };
+
+  const analyzeSurveyData = (responses) => {
+    const totalResponses = responses.length;
+
+    const countryCount = {};
+    const genderCount = { Male: 0, Female: 0 };
+    const ageDemographics = {
+      "18-24": 0,
+      "25-34": 0,
+      "35-44": 0,
+      "45-54": 0,
+      "55+": 0,
+    };
+
+    responses.forEach((response) => {
+      countryCount[response.country] =
+        (countryCount[response.country] || 0) + 1;
+      genderCount[response.gender]++;
+
+      const age = response.age;
+      if (age >= 18 && age <= 24) ageDemographics["18-24"]++;
+      else if (age >= 25 && age <= 34) ageDemographics["25-34"]++;
+      else if (age >= 35 && age <= 44) ageDemographics["35-44"]++;
+      else if (age >= 45 && age <= 54) ageDemographics["45-54"]++;
+      else ageDemographics["55+"]++;
+    });
+
+    return { totalResponses, countryCount, genderCount, ageDemographics };
   };
 
   const toggleChartType = () => {
@@ -173,51 +212,91 @@ const ResultsComponent = ({ surveyId }) => {
   }
 
   return (
-    <div>
-      <h1 className="text-center my-5">{survey.title}</h1>
+    <>
+      <h1 className="text-center my-5">NAME: {survey.title}</h1>
       {/* Filters */}
-      <div>
-        <h2>FILTERS:</h2>
-        <label>
-          Age:{" "}
-          <input
-            className="mx-5"
-            type="number"
-            placeholder="Min Age"
-            value={minAge}
-            onChange={(e) => setMinAge(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Max Age"
-            value={maxAge}
-            onChange={(e) => setMaxAge(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Gender:
-          <select onChange={(e) => setGenderFilter(e.target.value)}>
-            <option value="">All</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </label>
-        <label>
-          Country:
-          <select onChange={(e) => setCountryFilter(e.target.value)}>
-            <option value="">All</option>
-            {availableCountries.map((country, index) => (
-              <option key={index} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
-        </label>
+
+      <div className="form w-full ">
+        <h2>Survey Summary:</h2>
+        <p className="text-xl">Total Responses: {totalResponses}</p>
+        <div className="flex justify-around mt-5 flex-wrap">
+          <div className=" result-details rounded-md mx-5 p-2">
+            <h3 className="text-lg font-bold">By Country:</h3>
+            <ul>
+              {Object.entries(countryCount).map(([country, count]) => (
+                <li key={country} className="my-1 flex justify-between">
+                  <span className="font-bold">{country}</span> {count}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="result-details rounded-md mx-5 p-2">
+            <h3 className="text-lg font-bold">By Gender:</h3>
+            <ul>
+              <li key={genderCount} className="my-1 flex justify-between">
+                <span className="font-bold">Male</span> {genderCount.Male}
+              </li>
+              <li className="my-1 flex justify-between">
+                <span className="font-bold">Female</span> {genderCount.Female}
+              </li>
+            </ul>
+          </div>
+          <div className="result-details rounded-md mx-5 p-2">
+            <h3 className="text-lg font-bold">By Age:</h3>
+            <ul>
+              {Object.entries(ageDemographics).map(([ageRange, count]) => (
+                <li key={ageRange} className="my-1 flex justify-between">
+                  <span className="font-bold">{ageRange}</span> {count}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
-      <button className="btn-secondary mt-5" onClick={toggleChartType}>
-        Toggle Chart Type
-      </button>
+      <div>
+        <div>
+          <h2>FILTERS:</h2>
+          <label>
+            Age:{" "}
+            <input
+              className="mx-5"
+              type="number"
+              placeholder="Min Age"
+              value={minAge}
+              onChange={(e) => setMinAge(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Max Age"
+              value={maxAge}
+              onChange={(e) => setMaxAge(e.target.value)}
+            />
+          </label>
+          <br />
+          <label>
+            Gender:
+            <select onChange={(e) => setGenderFilter(e.target.value)}>
+              <option value="">All</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </label>
+          <label>
+            Country:
+            <select onChange={(e) => setCountryFilter(e.target.value)}>
+              <option value="">All</option>
+              {availableCountries.map((country, index) => (
+                <option key={index} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <button className="btn-secondary mt-5" onClick={toggleChartType}>
+          Toggle Chart Type
+        </button>
+      </div>
 
       {survey.questions.map((question, i) => {
         const dataForQuestion = Object.entries(
@@ -238,7 +317,7 @@ const ResultsComponent = ({ surveyId }) => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
 

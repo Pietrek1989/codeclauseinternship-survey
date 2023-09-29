@@ -17,33 +17,6 @@ const LoginPage = () => {
   const router = useRouter();
   //   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
-  const logIn = async (formValues) => {
-    try {
-      const res = await fetch(`${apiUrl}/users/session`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formValues),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setToken(data.accessToken);
-        console.log(data);
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
-        setisLoading(false);
-        setIsIncorrect(false);
-        router.push("/");
-      } else {
-        console.error("Error logging in:");
-        setIsIncorrect(true);
-        setisLoading(false);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
   const signInFunc = async ({ email, password }, e) => {
     e.preventDefault();
     try {
@@ -54,11 +27,11 @@ const LoginPage = () => {
       });
 
       if (res.error) {
-        console.log("res.error");
+        console.log("Sign-in error:", res.error);
         return;
       }
       console.log("worked?");
-      // router.replace("/account");
+      router.replace("/account");
     } catch (error) {
       console.log(error);
     }
