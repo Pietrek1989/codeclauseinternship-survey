@@ -58,7 +58,7 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
       const userData = await getSurvey(session.user);
       if (userData && userData.user) {
         setSurveys(userData);
-        console.log("surveys", surveys);
+        alert("survey saved");
       }
 
       console.log("data", data);
