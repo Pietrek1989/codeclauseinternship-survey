@@ -24,9 +24,7 @@ const AccountPage = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const data = await getSurvey(session.user);
-      console.log("session", session.user);
-      console.log("Received data: ", data);
+      const data = await getSurvey(session?.user);
       if (data && data.user) {
         setSurveys(data);
         console.log("surveys", surveys);
