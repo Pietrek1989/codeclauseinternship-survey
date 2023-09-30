@@ -15,7 +15,6 @@ const LoginPage = () => {
   const [isIncorrect, setIsIncorrect] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const router = useRouter();
-  //   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   const signInFunc = async ({ email, password }, e) => {
     e.preventDefault();

@@ -13,7 +13,7 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
     console.log("userid", userId);
     if (surveyId) {
       // Fetch existing survey data and populate the form
-      fetch(`http://localhost:3000/api/survey/${surveyId}`)
+      fetch(`${window.location.origin}/api/survey/${surveyId}`)
         .then((response) => response.json())
         .then((data) => {
           setTitle(data.survey.title);
@@ -48,7 +48,7 @@ const SurveyForm = ({ surveyId, userId, setSurveys }) => {
         method = "POST";
       }
 
-      response = await fetch(`http://localhost:3000${url}`, {
+      response = await fetch(`${window.location.origin}${url}`, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

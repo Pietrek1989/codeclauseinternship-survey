@@ -18,7 +18,6 @@ const RegisterPage = () => {
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const router = useRouter();
-  //   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   const register = async (formValues) => {
     try {

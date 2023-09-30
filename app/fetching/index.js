@@ -1,6 +1,6 @@
 export const getSurvey = async ({ email, name }) => {
   try {
-    const res = await fetch("http://localhost:3000/api/survey/byuser", {
+    const res = await fetch(`${window.location.origin}/api/survey/byuser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
